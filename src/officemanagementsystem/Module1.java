@@ -1,21 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package officemanagementsystem;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-/**
- *
- * @author Muhammad Taha Azam
- */
+
 public class Module1 extends javax.swing.JFrame {
 
     /**
@@ -212,7 +211,25 @@ public class Module1 extends javax.swing.JFrame {
         PI.setText(ill.getSelectedItem().toString());
         CD.setText(doctor.getSelectedItem().toString());
         
-        JOptionPane.showMessageDialog(rootPane,"Patient Name: "+ pname+ "\nFather Name: "+fname+"\nCnic: "+Cnic+"\n\n Data has been Submitted");
+        try {
+        	Class.forName(com.mysql.jdbc.Driver.class.getName());
+        	Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/patientrecords", "root", "root");
+        	Statement sta = connection.createStatement();
+        	String query = "INSERT INTO patient_record values(`" + pname + "`,`" + fname + "`,`" + Cnic + "`,`" + ill + "`,`" + CD + "`)";
+        	int x = sta.executeUpdate(query);
+        	if(x==0) {
+        		JOptionPane.showMessageDialog(rootPane, "This is already exist");
+        		
+        	}
+        	else {
+        		JOptionPane.showMessageDialog(rootPane,"Patient Name: "+ pname+ "\nFather Name: "+fname+"\nCnic: "+Cnic+"\n\n Data has been Submitted");
+                
+        	}
+        	connection.close();
+        }catch(Exception exception) {
+        	exception.printStackTrace();
+        }
+        
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
