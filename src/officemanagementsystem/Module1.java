@@ -4,15 +4,11 @@ package officemanagementsystem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import java.sql.*;
 
 
 public class Module1 extends javax.swing.JFrame {
@@ -97,7 +93,7 @@ public class Module1 extends javax.swing.JFrame {
 
         timelab.setText("time");
 
-        jButton1.setText("Sumbitt");
+        jButton1.setText("Sumbit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -212,17 +208,17 @@ public class Module1 extends javax.swing.JFrame {
         CD.setText(doctor.getSelectedItem().toString());
         
         try {
-        	Class.forName(com.mysql.jdbc.Driver.class.getName());
-        	Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/patientrecords", "root", "root");
+        	Class.forName("com.mysql.jdbc.Driver");
+        	Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/patient", "root", "Yogi@12345");
         	Statement sta = connection.createStatement();
-        	String query = "INSERT INTO patient_record values(`" + pname + "`,`" + fname + "`,`" + Cnic + "`,`" + ill + "`,`" + CD + "`)";
+        	String query = "INSERT INTO patient_record values('" + pname + "','" + fname + "','" + Cnic + "')";
         	int x = sta.executeUpdate(query);
         	if(x==0) {
-        		JOptionPane.showMessageDialog(rootPane, "This is already exist");
+        		JOptionPane.showMessageDialog(jButton1, "This is already exist");
         		
         	}
         	else {
-        		JOptionPane.showMessageDialog(rootPane,"Patient Name: "+ pname+ "\nFather Name: "+fname+"\nCnic: "+Cnic+"\n\n Data has been Submitted");
+        		JOptionPane.showMessageDialog(jButton1,"Patient Name: "+ pname+ "\nFather Name: "+fname+"\nCnic: "+Cnic+"\n\n Data has been Submitted");
                 
         	}
         	connection.close();
@@ -238,7 +234,6 @@ public class Module1 extends javax.swing.JFrame {
         MenuPage obj=new MenuPage();
         obj.setVisible(true);
         dispose();
-        // TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
